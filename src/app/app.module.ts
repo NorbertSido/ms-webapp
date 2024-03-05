@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { ProductCardComponent } from './Display/product-card/product-card.component';
 import { ProductListComponent } from './Display/product-list/product-list.component';
 
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -20,7 +20,8 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule,
   ],
   providers: [
-    provideClientHydration()
+    provideClientHydration(),
+    provideHttpClient(withFetch()),
   ],
   bootstrap: [AppComponent]
 })
