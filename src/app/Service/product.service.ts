@@ -8,7 +8,7 @@ import { Product } from './product';
 })
 export class ProductService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   LIST_URL: string = 'http://localhost:5051/products';
   getData() {
