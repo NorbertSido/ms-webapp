@@ -1,0 +1,25 @@
+<h3>Add new product</h3>
+
+<form [formGroup]="addProductForm" (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+        <label for="productName" class="form-label">Product name:</label>
+        <input formControlName="productName" type="text" name="productName" class="form-control" id="product-name" placeholder="Write here your product">
+        <div *ngIf="!productName?.valid && ( productName?.dirty || productName?.touched)">
+            <span *ngIf="productName?.errors?.['valid']">Kötelező a termék nevének megadása!</span>
+            <span *ngIf="productName?.errors?.['minlength']">A karakterek minimum száma 4db!</span>
+            <span *ngIf="productName?.errors?.['maxlength']">A karakterek maximum száma 50db!</span>
+        </div>
+    </div>
+    <div class="mb-3">
+        <label for="productPrice" class="form-label">Price:</label>
+        <input formControlName="productPrice" type="number" name="productPrice" class="form-control" id="product-price" placeholder="Add here your product price">
+        <div *ngIf="!productPrice?.valid && ( productPrice?.dirty || productPrice?.touched)">
+            <span *ngIf="productPrice?.errors?.['valid']">Kötelező a termék árának megadása!</span>
+            <span *ngIf="productPrice?.errors?.['min']">A termék minimum értéke 100!</span>
+            <span *ngIf="productPrice?.errors?.['max']">A termék maximum értéke 10000!</span>
+        </div>
+    </div>
+    <button type="submit" [disabled]="!addProductForm.valid" class="btn btn-primary btn-sm">Submi</button>
+</form>
+<div *ngIf="infoMessage">{{infoMessage}}</div>
+<div *ngIf="errorMessage">{{errorMessage}}</div>
