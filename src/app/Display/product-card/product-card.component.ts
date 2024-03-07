@@ -10,6 +10,20 @@ import { ProductService } from '../../Service/product.service';
 export class ProductCardComponent {
   @Input('product')
   product?: Product;
+  error?: boolean;
 
   constructor(private service: ProductService) { }
+
+  deleteProduct() {
+    if (this.product) {
+      this.service.deleteProduct(this.product)
+        .subscribe({
+          next: (success) => {
+            if (!success) this.error = true;
+            else this.error = false;
+          },
+          error: (error) => { this.error = true}
+        })
+    }
+  }
 }
