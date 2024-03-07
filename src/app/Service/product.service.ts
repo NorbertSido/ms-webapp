@@ -10,24 +10,46 @@ export class ProductService {
 
   constructor(private http: HttpClient) { }
 
-  LIST_URL: string = '';
+  LIST_URL: string = 'http://localhost:5051/products';
   getData() {
     return this.http.get<any>(this.LIST_URL)
       .pipe(
         map((res) => {
-          if (res.status != 200) throw new Error('Hiba a getData függvényhíváskor');
           let list: Product[] = [];
 
-          for (let i = 0; i < res.data.length; i++){
+          for (let i = 0; i < res.length; i++){
             let product = new Product(
-              res.data[i].id,
-              res.data[i].name,
-              res.data[i].price,
+              res[i].id,
+              res[i].name,
+              res[i].price,
             )
             list.push(product)
           }
           return list;
         })
       )
+  }
+
+  ADD_URL: string = 'http://localhost:5051/products/create';
+  createProduct(newProduct: Product) {
+    let postedHeaders = { "content-type": "application/json"}
+    let postedObject = {
+      name: newProduct.name,
+      price: newProduct.price
+    }
+    return this.http.post(this.ADD_URL, JSON.stringify(postedObject), { headers: postedHeaders });
+  }
+
+  DELETE_URL: string = 'http://localhost:5051/products/delete/'
+  deleteProduct(productToDelete: Product) {
+    let deleteURL = this.DELETE_URL + productToDelete.id;
+
+    return this.http.delete(deleteURL)
+      .pipe(map((res: any) => {
+        if (res.status === 200) {
+          return true
+        }
+        else return false
+      }))
   }
 }
